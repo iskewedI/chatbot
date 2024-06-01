@@ -41,7 +41,6 @@ def vectorize_stories(data, word_index, max_story_len, max_question_len):
         y = np.zeros(len(word_index) + 1)
 
         # Now that y is all zeros and we know its just Yes/No , we can use numpy logic to create this assignment
-        #
         y[word_index[answer]] = 1
 
         # Append each set of story,query, and answer to their respective holding lists
@@ -53,3 +52,26 @@ def vectorize_stories(data, word_index, max_story_len, max_question_len):
 
     # RETURN TUPLE FOR UNPACKING
     return (pad_sequences(X, maxlen=max_story_len),pad_sequences(Xq, maxlen=max_question_len), np.array(Y))
+
+
+def create_vectorization_from_input(story, question, correct_answer, tokenizer_data):
+    # Set data to expected model input shape
+    my_data = [(story.split(), question.split(), correct_answer)] # Story, question and answer
+
+    # Vectorize text
+    return vectorize_stories(my_data,
+                             tokenizer_data["word_index"],
+                             tokenizer_data["max_story_len"],
+                             tokenizer_data["max_question_len"]
+                             )
+
+def parse_result_from_model(results, tokenizer_word_index):
+    # Get prediction with max certainty
+    result = np.argmax(results[0])
+
+    # Get the actual parsed tokenizer value
+    for key, val in tokenizer_word_index.items():
+        if val == result:
+            result_text = key
+
+    return result_text, results[0][result]
