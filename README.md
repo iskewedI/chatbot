@@ -8,9 +8,6 @@ Welcome to the NLP Chatbot Project! This project is a demonstration of Natural L
 - [Installation](#installation)
 - [Usage](#usage)
 - [Model](#model)
-- [Documentation](#documentation)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Getting Started
 
